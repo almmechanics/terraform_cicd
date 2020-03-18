@@ -22,7 +22,6 @@ stages:
   displayName: 'deploy dev artifact'
   jobs:
   - job: Deploy_dev
-    dependsOn: Build
     displayName: 'Deploy to dev environment'
     pool:
       vmImage: 'ubuntu-latest'
