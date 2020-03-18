@@ -8,7 +8,7 @@ stages:
 - stage: build
   displayName: 'build artifact'
   jobs:
-  - job: make_artifact
+  - job: build
     displayName: 'Create build artifact'
     pool:
       vmImage: 'ubuntu-latest'
@@ -24,4 +24,9 @@ stages:
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)'
         publishLocation: 'pipeline'
-
+        
+  - job: Deploy
+    steps:
+    - download: current
+      artifact: build
+      path: build/
