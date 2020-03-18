@@ -23,7 +23,7 @@ stages:
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)'
-        publishLocation: 'pipeline'
+        publishLocation: 'build'
         
   - job: Deploy_dev
     dependsOn: Build
