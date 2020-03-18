@@ -12,9 +12,7 @@ steps:
   inputs:
     Contents: |
       *.tf
-      dev/*
-      test/*
-      prod*
+      **/*.tfvars
     TargetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
