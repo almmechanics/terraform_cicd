@@ -5,7 +5,6 @@ trigger:
 
 variables:
   Tf.Statefile : $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)_terraform.tfstate
-  group: Dev-Variables
 stages:
 - stage: build
   displayName: 'build artifact'
@@ -17,7 +16,11 @@ stages:
     steps:
     - publish: $(System.DefaultWorkingDirectory)
       artifact: build
-        
+- stage: deploy  
+  variables:
+   - group: Dev-Variables
+  displayName: 'deploy dev artifact'
+  jobs:
   - job: Deploy_dev
     dependsOn: Build
     displayName: 'Deploy to dev environment'
