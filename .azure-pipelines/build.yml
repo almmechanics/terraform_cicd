@@ -13,17 +13,8 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-
-    - task: CopyFiles@2
-      inputs:
-        Contents: |
-          *.tf
-          **/*.tfvars
-        TargetFolder: $(Build.ArtifactStagingDirectory)
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)'
-        publishLocation: 'build'
+    - publish: $(System.DefaultWorkingDirectory)
+      artifact: build
         
   - job: Deploy_dev
     dependsOn: Build
