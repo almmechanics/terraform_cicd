@@ -3,7 +3,9 @@ name:  $(TeamProject)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd
 trigger:
 - master
 
-
+variables:
+  Tf.Statefile : $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)_terraform.tfstate
+  group: Dev-Variables
 stages:
 - stage: build
   displayName: 'build artifact'
@@ -24,3 +26,16 @@ stages:
     steps:
     - download: current
       artifact: build
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+      displayName: 'Install Terraform 0.12.23'
+      inputs:
+        terraformVersion: 0.12.23
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+      displayName: 'Terraform init'
+      inputs:
+        workingDirectory: '$(Tf.ConfigurationDirectory)'
+        backendServiceArm: '$(Subscription)'
+        backendAzureRmResourceGroupName: '$(Tf.ResourceGroup)'
+        backendAzureRmStorageAccountName: '$(Tf.StorageAccount)'
+        backendAzureRmContainerName: '$(Tf.Container)'
+        backendAzureRmKey: '$(Tf.Statefile)'
