@@ -5,10 +5,10 @@ trigger:
 
 
 stages:
-- stage: create_artifact
-  displayName: 'Create build artifact'
+- stage: build
+  displayName: 'build artifact'
   jobs:
-    - job: build_artifact
+  - job: generate_artifact
     displayName: 'Create build artifact'
     pool:
       vmImage: 'ubuntu-latest'
