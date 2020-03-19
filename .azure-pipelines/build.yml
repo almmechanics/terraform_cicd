@@ -61,7 +61,7 @@ stages:
               provider: 'azurerm'
               environmentServiceNameAzureRM: '$(Subscription)'
               command: 'plan'
-              commandOptions: '-var-file=dev/config.tfvars -var="environment_name=dev\" -out=\"dev.tfplan\"'
+              commandOptions: '-var-file=dev/config.tfvars -var=environment_name=dev -out=dev.tfplan'
               workingDirectory:  $(Pipeline.Workspace)/drop
      
           - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
