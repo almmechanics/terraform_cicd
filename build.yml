@@ -24,9 +24,9 @@ stages:
   jobs:
   - deployment: dev
     environment: dev
-    pool: 'windows-latest'
+    pool: 
+      vmImage: 'windows-latest'
     strategy: 
-
       runOnce:
         preDeploy:
           steps:
@@ -49,7 +49,6 @@ stages:
     environment: test
     pool: 'windows-latest'
     strategy: 
-
       runOnce:
         preDeploy:
           steps:
@@ -70,9 +69,9 @@ stages:
 
   - deployment: prod
     environment: prod
-    pool: 'windows-latest'
+    pool: 
+       vmImage: 'windows-latest'
     strategy: 
-
       runOnce:
         preDeploy:
           steps:
