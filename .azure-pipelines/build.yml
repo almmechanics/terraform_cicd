@@ -23,7 +23,10 @@ stages:
    - group: dev-variables
   displayName: 'deploy dev artifact'
   jobs:
-  - job: Deploy_dev
+  - deployment: Deploy
+    job: Deploy_dev
+    environment:
+      name: dev
     displayName: 'dev'
     pool:
       vmImage: 'windows-latest'
