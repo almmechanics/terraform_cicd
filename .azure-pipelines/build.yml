@@ -38,7 +38,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'gci $(System.ArtifactsDirectory) -recurse'
+              script: 'gci $(Pipeline.Workspace) -recurse'
 
         deploy:
           steps:
@@ -50,7 +50,7 @@ stages:
           - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
             displayName: 'Terraform init'
             inputs:
-              workingDirectory:  $(System.ArtifactsDirectory)/drop
+              workingDirectory:  $(Pipeline.Workspace)/drop
               backendServiceArm: '$(Subscription)'
               backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
               backendAzureRmStorageAccountName: $(Tf.StorageAccount)
