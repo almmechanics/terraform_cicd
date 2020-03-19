@@ -38,7 +38,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'gci '$(System.ArtifactsDirectory)' -recurse'
+              script: 'gci $(System.ArtifactsDirectory) -recurse'
 
         deploy:
           steps:
