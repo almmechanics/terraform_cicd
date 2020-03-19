@@ -25,11 +25,11 @@ stages:
   jobs:
   - job: Deploy_dev
     displayName: 'dev'
-    environment: 'dev'
+    environment: dev
     pool:
       vmImage: 'windows-latest'
     steps:
-    
+
     - download: current
       artifact: build
 
