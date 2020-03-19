@@ -62,7 +62,7 @@ stages:
             inputs:
               command: plan
               commandOptions: '-var-file = "./dev/config.tfvars" -var="environment_name=dev" -out=./dev.plan'
-              workingDirectory: '$(Tf.ConfigurationDirectory)'
+              workingDirectory: $(Pipeline.Workspace)/drop
               environmentServiceNameAzureRM: '$(Subscription)'
               backendServiceArm: 'MSDN Enterprise'
               backendAzureRmResourceGroupName: '$(Tf.ResourceGroup)'
@@ -75,7 +75,7 @@ stages:
             inputs:
               command: apply
               commandOptions: './dev.plan'
-              workingDirectory: '$(Tf.ConfigurationDirectory)'
+              workingDirectory: $(Pipeline.Workspace)/drop
               environmentServiceNameAzureRM: '$(Subscription)'
               backendServiceArm: 'MSDN Enterprise'
               backendAzureRmResourceGroupName: '$(Tf.ResourceGroup)'
