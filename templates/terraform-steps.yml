@@ -11,8 +11,10 @@ parameters:
   type: string
 - name: 'backendAzureRmContainerName' # $(Tf.Container)
   type: string
-- name: 'backendAzureRmKey' # $(Tf.Statefile)
+- name: 'statefileContext' # $(Tf.Statefile)
   type: string
+
+
 
 steps:
 - task: TerraformInstaller@0
@@ -29,7 +31,7 @@ steps:
     backendAzureRmResourceGroupName: ${{parameters.backendAzureRmResourceGroupName}}
     backendAzureRmStorageAccountName: ${{parameters.backendAzureRmStorageAccountName}}
     backendAzureRmContainerName: ${{parameters.backendAzureRmContainerName}}
-    backendAzureRmKey: ${{parameters.backendAzureRmKey}}
+    backendAzureRmKey: ${{parameters.statefileContext}}_${{parameters.environment}}_terraform.state
 
 - task: TerraformTaskV1@0
   displayName: 'terraform plan'

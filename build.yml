@@ -4,8 +4,8 @@ trigger:
 - master
 
 variables:
-  Tf.Statefile : $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)_terraform.tfstate
-  Subscription : MSDN Enterprise
+  StatefileContext : $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)
+  Subscription : AzureSP
 stages:
 - stage: CI
   displayName: 'Build'
@@ -22,9 +22,9 @@ stages:
    - group: dev-variables
   displayName: 'Deploy'
   jobs:
-  - deployment: Deploy
+  - deployment: dev
     environment: dev
-    pool: 'private'
+    pool: 'windows-latest'
     strategy: 
 
       runOnce:
@@ -42,5 +42,51 @@ stages:
               backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
               backendAzureRmStorageAccountName: $(Tf.StorageAccount)
               backendAzureRmContainerName: $(Tf.Container)
-              backendAzureRmKey: $(Tf.Statefile)
               environment: 'dev'
+              statefileContext: $(StatefileContext)
+    
+  - deployment: test
+    environment: test
+    pool: 'windows-latest'
+    strategy: 
+
+      runOnce:
+        preDeploy:
+          steps:
+          - download: current
+            artifact: drop
+
+        deploy:
+          steps:
+          - template: templates/terraform-steps.yml
+            parameters:
+              backendServiceArm : $(Subscription)
+              workingDirectory: $(Pipeline.Workspace)/drop
+              backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
+              backendAzureRmStorageAccountName: $(Tf.StorageAccount)
+              backendAzureRmContainerName: $(Tf.Container)
+              environment: 'test'
+              statefileContext: $(StatefileContext)
+
+  - deployment: prod
+      environment: prod
+      pool: 'windows-latest'
+      strategy: 
+
+        runOnce:
+          preDeploy:
+            steps:
+            - download: current
+              artifact: drop
+
+          deploy:
+            steps:
+            - template: templates/terraform-steps.yml
+              parameters:
+                backendServiceArm : $(Subscription)
+                workingDirectory: $(Pipeline.Workspace)/drop
+                backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
+                backendAzureRmStorageAccountName: $(Tf.StorageAccount)
+                backendAzureRmContainerName: $(Tf.Container)
+                environment: 'prod'
+                statefileContext: $(StatefileContext)
