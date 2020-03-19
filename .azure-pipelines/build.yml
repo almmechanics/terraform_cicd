@@ -25,7 +25,6 @@ stages:
   jobs:
   - job: Deploy_dev
     displayName: 'dev'
-    environment: dev
     pool:
       vmImage: 'windows-latest'
     steps:
