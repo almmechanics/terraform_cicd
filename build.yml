@@ -45,57 +45,58 @@ stages:
               environment: 'dev'
               statefileContext: $(StatefileContext)
  
-  - stage: dev  
-    variables:
-    - group: test-variables
-    displayName: 'test'
-    jobs:  
-    - deployment: test
-      environment: test
-      pool: 
-        vmImage: 'windows-latest'
-      strategy: 
-        runOnce:
-          preDeploy:
-            steps:
-            - download: current
-              artifact: drop
+- stage: test  
+  variables:
+  - group: test-variables
+  displayName: 'test'
+  jobs:  
+  - deployment: test
+    environment: test
+    pool: 
+      vmImage: 'windows-latest'
+    strategy: 
+      runOnce:
+        preDeploy:
+          steps:
+          - download: current
+            artifact: drop
 
-          deploy:
-            steps:
-            - template: templates/terraform-steps.yml
-              parameters:
-                backendServiceArm : $(Subscription)
-                workingDirectory: $(Pipeline.Workspace)/drop
-                backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
-                backendAzureRmStorageAccountName: $(Tf.StorageAccount)
-                backendAzureRmContainerName: $(Tf.Container)
-                environment: 'test'
-                statefileContext: $(StatefileContext)
-  - stage: prod  
-    variables:
-    - group: prod-variables
-    displayName: 'prod'
-    jobs:  
-    - deployment: prod
-      environment: prod
-      pool: 
-        vmImage: 'windows-latest'
-      strategy: 
-        runOnce:
-          preDeploy:
-            steps:
-            - download: current
-              artifact: drop
+        deploy:
+          steps:
+          - template: templates/terraform-steps.yml
+            parameters:
+              backendServiceArm : $(Subscription)
+              workingDirectory: $(Pipeline.Workspace)/drop
+              backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
+              backendAzureRmStorageAccountName: $(Tf.StorageAccount)
+              backendAzureRmContainerName: $(Tf.Container)
+              environment: 'test'
+              statefileContext: $(StatefileContext)
+              
+- stage: prod  
+  variables:
+  - group: prod-variables
+  displayName: 'prod'
+  jobs:  
+  - deployment: prod
+    environment: prod
+    pool: 
+      vmImage: 'windows-latest'
+    strategy: 
+      runOnce:
+        preDeploy:
+          steps:
+          - download: current
+            artifact: drop
 
-          deploy:
-            steps:
-            - template: templates/terraform-steps.yml
-              parameters:
-                backendServiceArm : $(Subscription)
-                workingDirectory: $(Pipeline.Workspace)/drop
-                backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
-                backendAzureRmStorageAccountName: $(Tf.StorageAccount)
-                backendAzureRmContainerName: $(Tf.Container)
-                environment: 'prod'
-                statefileContext: $(StatefileContext)
+        deploy:
+          steps:
+          - template: templates/terraform-steps.yml
+            parameters:
+              backendServiceArm : $(Subscription)
+              workingDirectory: $(Pipeline.Workspace)/drop
+              backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
+              backendAzureRmStorageAccountName: $(Tf.StorageAccount)
+              backendAzureRmContainerName: $(Tf.Container)
+              environment: 'prod'
+              statefileContext: $(StatefileContext)
