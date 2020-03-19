@@ -28,8 +28,9 @@ stages:
     pool:
       vmImage: 'windows-latest'
     strategy: 
+    
       runOnce:
-        deploy:
+        investigate:
           steps:
           - download: current
             artifact: build
@@ -38,6 +39,11 @@ stages:
             inputs:
               targetType: 'inline'
               script: 'gci d:/a/1 -recurse'
+
+        deploy:
+          steps:
+          - download: current
+            artifact: build
 
           - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
             displayName: 'Install Terraform 0.12.23'
