@@ -7,8 +7,8 @@ variables:
   Tf.Statefile : $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)_terraform.tfstate
   Subscription : MSDN Enterprise
 stages:
-- stage: Build
-  displayName: 'build artifact'
+- stage: CI
+  displayName: 'Build'
   jobs:
   - job: Build
     displayName: 'Create build artifact'
@@ -18,10 +18,10 @@ stages:
     - publish: $(System.DefaultWorkingDirectory)
       artifact: drop
 
-- stage: Release  
+- stage: CD  
   variables:
    - group: dev-variables
-  displayName: 'deploy dev artifact'
+  displayName: 'Deploy'
   jobs:
   - deployment: Deploy
     environment: dev
@@ -56,3 +56,29 @@ stages:
               backendAzureRmStorageAccountName: $(Tf.StorageAccount)
               backendAzureRmContainerName: $(Tf.Container)
               backendAzureRmKey: $(Tf.Statefile)
+
+          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+            displayName: 'Terraform plan'
+            inputs:
+              command: plan
+              commandOptions: '-var-file = "./dev/config.tfvars" -var="environment_name=dev" -out=./dev.plan'
+              workingDirectory: '$(Tf.ConfigurationDirectory)'
+              environmentServiceNameAzureRM: '$(Subscription)'
+              backendServiceArm: 'MSDN Enterprise'
+              backendAzureRmResourceGroupName: '$(Tf.ResourceGroup)'
+              backendAzureRmStorageAccountName: '$(Tf.StorageAccount)'
+              backendAzureRmContainerName: '$(Tf.Container)'
+              backendAzureRmKey: '$(Tf.Key)'
+
+          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+            displayName: 'Terraform plan'
+            inputs:
+              command: apply
+              commandOptions: './dev.plan'
+              workingDirectory: '$(Tf.ConfigurationDirectory)'
+              environmentServiceNameAzureRM: '$(Subscription)'
+              backendServiceArm: 'MSDN Enterprise'
+              backendAzureRmResourceGroupName: '$(Tf.ResourceGroup)'
+              backendAzureRmStorageAccountName: '$(Tf.StorageAccount)'
+              backendAzureRmContainerName: '$(Tf.Container)'
+              backendAzureRmKey: '$(Tf.Key)'
