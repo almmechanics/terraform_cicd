@@ -12,7 +12,8 @@ stages:
   jobs:
   - job: Build
     displayName: 'Create build artifact'
-    pool: 'private'
+    pool: 
+      vmImage: 'windows-latest'
     steps:
     - publish: $(System.DefaultWorkingDirectory)
       artifact: drop
@@ -47,7 +48,8 @@ stages:
     
   - deployment: test
     environment: test
-    pool: 'windows-latest'
+    pool: 
+      vmImage: 'windows-latest'
     strategy: 
       runOnce:
         preDeploy:
@@ -70,7 +72,7 @@ stages:
   - deployment: prod
     environment: prod
     pool: 
-       vmImage: 'windows-latest'
+      vmImage: 'windows-latest'
     strategy: 
       runOnce:
         preDeploy:
