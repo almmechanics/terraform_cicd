@@ -57,14 +57,16 @@ stages:
               backendAzureRmContainerName: $(Tf.Container)
               backendAzureRmKey: $(Tf.Statefile)
 
-          - task: TerraformTaskV1@0
+          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
               command: 'plan'
               commandOptions: '-var-file = "./dev/config.tfvars" -var="environment_name=dev" -out=./dev.plan'
+              workingDirectory:  $(Pipeline.Workspace)/drop
      
-          - task: TerraformTaskV1@0
+          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
             inputs:
               provider: 'azurerm'
               command: 'apply'
               commandOptions: './dev.plan'
+              workingDirectory:  $(Pipeline.Workspace)/drop
