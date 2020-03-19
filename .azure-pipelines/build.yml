@@ -28,9 +28,9 @@ stages:
     pool:
       vmImage: 'windows-latest'
     strategy: 
-    
+
       runOnce:
-        investigate:
+        preDeploy:
           steps:
           - download: current
             artifact: build
@@ -42,9 +42,6 @@ stages:
 
         deploy:
           steps:
-          - download: current
-            artifact: build
-
           - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
             displayName: 'Install Terraform 0.12.23'
             inputs:
