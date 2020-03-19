@@ -61,7 +61,7 @@ stages:
             displayName: 'Terraform plan'
             inputs:
               provider: 'azurerm'
-              backendServiceArm: '$(Subscription)'
+              environmentServiceNameAzureRM: '$(Subscription)'
               command: 'plan'
               commandOptions: '-var-file = "./dev/config.tfvars" -var="environment_name=dev" -out=./dev.plan'
               workingDirectory:  $(Pipeline.Workspace)/drop
@@ -70,7 +70,7 @@ stages:
             displayName: 'Terraform apply'
             inputs:
               provider: 'azurerm'
-              backendServiceArm: '$(Subscription)'
+              environmentServiceNameAzureRM: '$(Subscription)'
               command: 'apply'
               commandOptions: './dev.plan'
               workingDirectory:  $(Pipeline.Workspace)/drop
