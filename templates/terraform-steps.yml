@@ -16,10 +16,8 @@ parameters:
 
 steps:
 - task: TerraformInstaller@0
-displayName: 'Install Terraform 0.12.23'
 inputs:
     terraformVersion: 0.12.23
-
 - task: TerraformTaskV1@0
 inputs:
     workingDirectory:  ${{parameters.workingDirectory}}
