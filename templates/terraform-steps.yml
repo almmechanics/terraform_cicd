@@ -16,10 +16,14 @@ parameters:
 
 steps:
 - task: TerraformInstaller@0
-inputs:
+  displayName: 'terraform installer'
+  inputs:
     terraformVersion: 0.12.23
+
 - task: TerraformTaskV1@0
-inputs:
+  displayName: 'terraform init'
+  inputs:
+    command: 'init'
     workingDirectory:  ${{parameters.workingDirectory}}
     backendServiceArm: ${{parameters.backendServiceArm}}
     backendAzureRmResourceGroupName: ${{parameters.backendAzureRmResourceGroupName}}
@@ -28,7 +32,8 @@ inputs:
     backendAzureRmKey: ${{parameters.backendAzureRmKey}}
 
 - task: TerraformTaskV1@0
-inputs:
+  displayName: 'terraform plan'
+  inputs:
     provider: 'azurerm'
     environmentServiceNameAzureRM: ${{parameters.backendServiceArm}}
     command: 'plan'
@@ -36,7 +41,8 @@ inputs:
     workingDirectory:  ${{parameters.workingDirectory}}
 
 - task: TerraformTaskV1@0
-inputs:
+  displayName: 'terraform apply'
+  inputs:
     provider: 'azurerm'
     environmentServiceNameAzureRM: ${{parameters.backendServiceArm}}
     command: 'apply'
