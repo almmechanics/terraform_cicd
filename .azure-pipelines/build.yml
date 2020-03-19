@@ -36,7 +36,7 @@ stages:
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
       displayName: 'Terraform init'
       inputs:
-        workingDirectory: $(System.DefaultWorkingDirectory)/build
+        workingDirectory: $(Build.SourcesDirectory)
         backendServiceArm: '$(Subscription)'
         backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
         backendAzureRmStorageAccountName: $(Tf.StorageAccount)
