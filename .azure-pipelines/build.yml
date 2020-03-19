@@ -32,43 +32,14 @@ stages:
           steps:
           - download: current
             artifact: drop
-            
-          - task: PowerShell@2
-            inputs:
-              targetType: 'inline'
-              script: 'gci $(Pipeline.Workspace) -recurse'
 
         deploy:
-          steps:
-          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
-            displayName: 'Install Terraform 0.12.23'
-            inputs:
-              terraformVersion: 0.12.23
-
-          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
-            displayName: 'Terraform init'
-            inputs:
-              workingDirectory:  $(Pipeline.Workspace)/drop
-              backendServiceArm: '$(Subscription)'
+          - template: templates/terraform-steps.yml
+            parameters:
+              backendServiceArm : $(Subscription)
+              workingDirectory: $(Pipeline.Workspace)/drop
               backendAzureRmResourceGroupName: $(Tf.ResourceGroup)
               backendAzureRmStorageAccountName: $(Tf.StorageAccount)
               backendAzureRmContainerName: $(Tf.Container)
               backendAzureRmKey: $(Tf.Statefile)
-
-          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
-            displayName: 'Terraform plan'
-            inputs:
-              provider: 'azurerm'
-              environmentServiceNameAzureRM: '$(Subscription)'
-              command: 'plan'
-              commandOptions: '-var-file=dev/config.tfvars -var=environment_name=dev -out=dev.tfplan'
-              workingDirectory:  $(Pipeline.Workspace)/drop
-     
-          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
-            displayName: 'Terraform apply'
-            inputs:
-              provider: 'azurerm'
-              environmentServiceNameAzureRM: '$(Subscription)'
-              command: 'apply'
-              commandOptions: 'dev.tfplan'
-              workingDirectory:  $(Pipeline.Workspace)/drop
+              environment: 'dev'
