@@ -13,7 +13,7 @@ stages:
   - job: Build
     displayName: 'Create build artifact'
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'private'
     steps:
     - publish: $(System.DefaultWorkingDirectory)
       artifact: drop
@@ -26,7 +26,7 @@ stages:
   - deployment: Deploy
     environment: dev
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'private'
     strategy: 
 
       runOnce:
