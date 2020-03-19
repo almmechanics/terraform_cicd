@@ -33,11 +33,11 @@ stages:
           steps:
           - download: current
             artifact: build
-            
+
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
-              script: 'gci $(System.ArtifactsDirectory) -recurse'
+              script: 'gci d:/a/1 -recurse'
 
           - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
             displayName: 'Install Terraform 0.12.23'
