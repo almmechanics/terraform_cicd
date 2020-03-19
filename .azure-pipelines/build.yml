@@ -5,6 +5,7 @@ trigger:
 
 variables:
   Tf.Statefile : $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)_terraform.tfstate
+  Subscription : MSDN Enterprise
 stages:
 - stage: build
   displayName: 'build artifact'
