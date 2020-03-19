@@ -16,9 +16,9 @@ stages:
     steps:
     - publish: $(System.DefaultWorkingDirectory)
       artifact: build
-- stage: deploy  
+- stage: dev  
   variables:
-   - group: Dev-Variables
+   - group: dev-variables
   displayName: 'deploy dev artifact'
   jobs:
   - job: Deploy_dev
