@@ -5,7 +5,7 @@ trigger:
 
 variables:
   StatefileContext: $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)
-  #Subscription: AzureSP
+  Subscription: AzureSP
 
 stages:
 - stage: CI
