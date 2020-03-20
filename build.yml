@@ -20,7 +20,7 @@ stages:
 
 - stage: dev  
   variables:
-    Subscription: "AzureSp"
+    Subscription: AzureSP
     group: dev-variables
   displayName: 'deploy dev'
   jobs:
@@ -49,7 +49,7 @@ stages:
  
 - stage: test  
   variables:
-    Subscription: "AzureSp"
+    Subscription: AzureSP
     group: test-variables
   displayName: 'deploy test'
   jobs:  
@@ -78,7 +78,7 @@ stages:
 
 - stage: prod  
   variables:
-    Subscription: "AzureSp"
+    Subscription: AzureSP
     group: prod-variables
   displayName: 'deploy prod'
   jobs:  
