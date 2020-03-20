@@ -5,6 +5,7 @@ trigger:
 
 variables:
   StatefileContext : $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)
+
 stages:
 - stage: CI
   displayName: 'Build'
@@ -19,9 +20,9 @@ stages:
 
 - stage: dev  
   variables:
-  - group: dev-variables
-  - Subscription: AzureSp
-  displayName: 'dev'
+    Subscription: AzureSp
+    group: dev-variables
+  displayName: 'deploy dev'
   jobs:
   - deployment: dev
     environment: dev
@@ -48,9 +49,9 @@ stages:
  
 - stage: test  
   variables:
-  - group: test-variables
-  - Subscription: AzureSp
-  displayName: 'test'
+    Subscription: AzureSp
+    group: test-variables
+  displayName: 'deploy test'
   jobs:  
   - deployment: test
     environment: test
@@ -77,9 +78,9 @@ stages:
 
 - stage: prod  
   variables:
-  - group: prod-variables
-  - Subscription: AzureSp
-  displayName: 'prod'
+    Subscription: AzureSp
+    group: prod-variables
+  displayName: 'deploy prod'
   jobs:  
   - deployment: prod
     environment: prod
