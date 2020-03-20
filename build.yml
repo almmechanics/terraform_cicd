@@ -5,7 +5,7 @@ trigger:
 
 variables:
   StatefileContext: $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)
-  Subscription: AzureSP
+  #Subscription: AzureSP
 
 stages:
 - stage: CI
@@ -20,9 +20,10 @@ stages:
       artifact: drop
 
 - stage: dev  
-  variables:
-    group: dev-variables
   displayName: 'deploy dev'
+  variables:
+  - group: dev-variables
+
   jobs:
   - deployment: dev
     environment: dev
@@ -48,9 +49,10 @@ stages:
               statefileContext: $(StatefileContext)
  
 - stage: test  
-  variables:
-    group: test-variables
   displayName: 'deploy test'
+  variables:
+  - group: test-variables
+
   jobs:  
   - deployment: test
     environment: test
@@ -76,9 +78,10 @@ stages:
               statefileContext: $(StatefileContext)
 
 - stage: prod  
-  variables:
-    group: prod-variables
   displayName: 'deploy prod'
+  variables:
+  - group: prod-variables
+
   jobs:  
   - deployment: prod
     environment: prod
