@@ -20,6 +20,7 @@ stages:
 - stage: dev  
   variables:
    - group: dev-variables
+     Subscription: 'AzureSp'
   displayName: 'dev'
   jobs:
   - deployment: dev
@@ -48,6 +49,8 @@ stages:
 - stage: test  
   variables:
   - group: test-variables
+    Subscription: 'AzureSp'
+
   displayName: 'test'
   jobs:  
   - deployment: test
@@ -72,10 +75,11 @@ stages:
               backendAzureRmContainerName: $(Tf.Container)
               environment: 'test'
               statefileContext: $(StatefileContext)
-              
+
 - stage: prod  
   variables:
   - group: prod-variables
+    Subscription: 'AzureSp'
   displayName: 'prod'
   jobs:  
   - deployment: prod
