@@ -22,7 +22,7 @@ stages:
 - stage: dev  
   displayName: 'deploy dev'
   variables:
-  - group: dev-variables
+  - group: dev2-variables
 
   jobs:
   - deployment: dev
@@ -51,7 +51,7 @@ stages:
 - stage: test  
   displayName: 'deploy test'
   variables:
-  - group: test-variables
+  - group: dev2-variables
 
   jobs:  
   - deployment: test
@@ -80,7 +80,7 @@ stages:
 - stage: prod  
   displayName: 'deploy prod'
   variables:
-  - group: prod-variables
+  - group: dev2-variables
 
   jobs:  
   - deployment: prod
