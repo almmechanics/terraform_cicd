@@ -11,16 +11,14 @@ parameters:
   type: string
 - name: 'backendAzureRmContainerName' # $(Tf.Container)
   type: string
-- name: 'statefileContext' # $(Tf.Statefile)
+- name: 'statefileContext'
   type: string
-
-
 
 steps:
 - task: TerraformInstaller@0
   displayName: 'terraform installer'
   inputs:
-    terraformVersion: 0.12.23
+    terraformVersion: 0.14.6
 
 - task: TerraformTaskV1@0
   displayName: 'terraform init'

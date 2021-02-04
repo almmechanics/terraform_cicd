@@ -1,11 +1,11 @@
 name:  $(TeamProject)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)  
 
 trigger:
-- master
+- main
 
 variables:
   StatefileContext: $(System.TeamProject)_$(Build.DefinitionName)_$(Build.Repository.Name)_$(Build.SourceBranchName)
-  Subscription: AzureSP
+  Subscription: AzureDev2
 
 stages:
 - stage: CI
